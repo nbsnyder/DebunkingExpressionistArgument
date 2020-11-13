@@ -1,0 +1,49 @@
+/*
+Nathan Snyder
+ANTH 3541: Language and Music final project
+Debunking the Expressionist Fallacy
+*/
+
+html, body {height:100%;overflow:auto}
+
+#slidecontainer {
+    width: 100%;
+}
+    
+#progressbar {
+    width: 0%;
+    display: none;
+}
+
+@media only screen and (min-width: 700px) {
+    #bodycontainer {
+        display: block;
+    }
+    
+    #slidecontainer {
+        float: right;
+        width: 97%;
+    }
+    
+    #progressbar {
+        display: block !important;
+        float: left;
+        position: fixed;
+        width: 3%;
+    }
+
+    .sliderect {
+        display: block !important;
+        width: 50%;
+        height: calc(87vh / 7);
+        margin-top: calc(10vh / 7);
+        background-color: red;
+        opacity: 0.5;
+    }
+}
+
+.slide {
+    position: fixed;
+    height: 95%;
+    width: 95%;
+}
