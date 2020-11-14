@@ -10,13 +10,11 @@ function scrollAdjustment(pos) {
     var scrollDiff = $(document).scrollTop() - pos;
     var wh = $(window).height();
 
-    // when |st - pos| > wh, keep top and opacity constant
-    // when |st - pos| < wh, top = a(st-pos)^3 + b(st-pos); a = -0.909091 / wh^2; b = -0.0909091
-    //                       opacity = 4c(st-pos)^2 + d; c = -1 / wh^2; d = 1
+    // when |st - pos| > wh: keep top and opacity constant
+    // when |st - pos| < wh: top = -scrollDiff^3 / wh^2, opacity = -5 * scrollDiff^2 + 1
     return (scrollDiff < -wh) ? [wh, 0] : 
-           (scrollDiff > wh) ? [-wh, 0] : 
-           [((-0.909091 / (wh * wh)) * scrollDiff * scrollDiff * scrollDiff) + (-0.0909091 * scrollDiff), ((-4 / (wh * wh)) * scrollDiff * scrollDiff) + 1];
-
+           (scrollDiff > wh) ? [-wh, 0] :
+           [(-1 * scrollDiff * scrollDiff * scrollDiff / (wh * wh)), ((-5 * scrollDiff * scrollDiff / (wh * wh)) + 1)];
 }
 
 // adjusts the tops and opacities of all of the slides
@@ -27,7 +25,7 @@ function scrolling() {
     for (var i = 0; i <= 6; i++) {
         adjustment = scrollAdjustment($(window).height() * i);
         $("#slide" + i).css("top", adjustment[0] + "px");
-        $("#slide" + i).css("opacity", adjustment[1]);
+        $("#slide" + i).css("opacity", (adjustment[1] < 0) ? 0 : adjustment[1]);
         $("#slide" + i + "rect").css("opacity", (adjustment[1] < 0.1) ? 0.1 : adjustment[1]);
     }
 }
@@ -37,12 +35,7 @@ $(document).ready(function() {
     $("html").css("height", ($(window).height() * 7));
 
     $(".slide").css("top", $(window).height() + "px");
-    $(".slide").css("opacity", 0);
-    $(".sliderect").css("opacity", 0.1);
-
     $("#slide0").css("top", "0px");
-    $("#slide0").css("opacity", 1);
-    $("#slide0rect").css("opacity", 1);
 
     $(window).on("resize", function() {
         console.log("resizing");

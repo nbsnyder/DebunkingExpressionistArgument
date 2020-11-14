@@ -4,8 +4,6 @@ ANTH 3541: Language and Music final project
 Debunking the Expressionist Fallacy
 */
 
-html, body {height:100%;overflow:auto}
-
 #slidecontainer {
     width: 100%;
 }
@@ -38,7 +36,11 @@ html, body {height:100%;overflow:auto}
         height: calc(87vh / 7);
         margin-top: calc(10vh / 7);
         background-color: red;
-        opacity: 0.5;
+        opacity: 0.1;
+    }
+
+    #slide0rect {
+        opacity: 1;
     }
 }
 
@@ -46,4 +48,9 @@ html, body {height:100%;overflow:auto}
     position: fixed;
     height: 95%;
     width: 95%;
+    opacity: 0;
+}
+
+#slide0 {
+    opacity: 1;
 }
