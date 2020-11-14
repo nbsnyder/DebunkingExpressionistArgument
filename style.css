@@ -4,10 +4,14 @@ ANTH 3541: Language and Music final project
 Debunking the Expressionist Fallacy
 */
 
+html {
+    height: 700vh; /* 100vh * number of slides */
+}
+
 #slidecontainer {
     width: 100%;
 }
-    
+
 #progressbar {
     width: 0%;
     display: none;
@@ -24,17 +28,17 @@ Debunking the Expressionist Fallacy
     }
     
     #progressbar {
-        display: block !important;
+        display: block;
         float: left;
         position: fixed;
         width: 3%;
     }
 
     .sliderect {
-        display: block !important;
+        display: block;
         width: 50%;
-        height: calc(87vh / 7);
-        margin-top: calc(10vh / 7);
+        height: calc(87vh / 7); /* 87vh / number of slides */
+        margin: calc(10vh / 7) auto; /* 10vh / number of slides */
         background-color: red;
         opacity: 0.1;
     }
