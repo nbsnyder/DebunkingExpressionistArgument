@@ -1,11 +1,15 @@
 /*
 Nathan Snyder
 ANTH 3541: Language and Music final project
-Debunking the Expressionist Fallacy
+Debunking the Expressionist Argument
 */
 
 html {
-    height: 700vh; /* 100vh * number of slides */
+    height: calc(100vh * 6); /* 100vh * number of slides */
+}
+
+body {
+    background-image: linear-gradient(120deg, rgba(0, 255, 0, 0.2), rgba(0, 0, 255, 0.2));
 }
 
 #slidecontainer {
@@ -17,44 +21,105 @@ html {
     display: none;
 }
 
+h2 {
+    text-align: center;
+    height: 10%;
+}
+
+#signature {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 5px;
+    border: 1px solid black;
+    text-align: center;
+    background-color: rgba(255, 0, 0, 0.6);
+    border-radius: 5px;
+}
+
+.toptext {
+    display: flex;
+    height: 40%;
+    width: 100%;
+}
+
+.toptextleftcolumn {
+    flex: 50%;
+}
+
+.toptextrightcolumn {
+    flex: 50%;
+}
+
+.bottomtext {
+    height: 40%;
+    width: 100%;
+}
+
+.topdiv {
+    height: 10%;
+}
+
 @media only screen and (min-width: 700px) {
-    #bodycontainer {
-        display: block;
-    }
-    
+
     #slidecontainer {
         float: right;
         width: 97%;
     }
-    
+
     #progressbar {
         display: block;
         float: left;
         position: fixed;
         width: 3%;
+        margin: auto;
     }
 
     .sliderect {
         display: block;
-        width: 50%;
-        height: calc(87vh / 7); /* 87vh / number of slides */
-        margin: calc(10vh / 7) auto; /* 10vh / number of slides */
+        width: 70%;
+        height: calc(90vh / 6); /* 90vh / number of slides */
+        line-height: calc(90vh / 6); /* 90vh / number of slides */
+        margin: calc(10vh / 12) auto calc(10vh / 12) auto; /* top and bottom: 10vh / (2 * number of slides) */
         background-color: red;
+        text-align: center;
+        border: 0px;
+    }
+
+    @media only screen and (min-width: 900px) {
+        .sliderect {
+            width: 50%;
+        }
+    }
+
+    .sliderect:not(#slide0rect) {
         opacity: 0.1;
     }
 
     #slide0rect {
         opacity: 1;
     }
+
 }
 
 .slide {
     position: fixed;
     height: 95%;
     width: 95%;
+}
+
+.slide p {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.slide:not(#slide0) {
+    top: 100vh;
     opacity: 0;
 }
 
 #slide0 {
+    top: 0px;
     opacity: 1;
 }

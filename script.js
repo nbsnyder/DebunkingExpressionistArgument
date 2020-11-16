@@ -1,20 +1,26 @@
 /*
 Nathan Snyder
 ANTH 3541: Language and Music final project
-Debunking the Expressionist Fallacy
+Debunking the Expressionist Argument
 */
 
+// fits a number to the range [min, max]
+var fitRange = (num, min, max) => 
+    (num < min) ? min : 
+    (num > max) ? max : 
+    num;
+
 // calculates the adjustments that should be made to the slides when the user scrolls
-// returns an array where the first element represents the top of the slide and the second represents the opacity
+// returns an array where the first element is the top of the slide and the second element is the opacity
 function scrollAdjustment(pos) {
     var scrollDiff = $(document).scrollTop() - pos;
     var wh = $(window).height();
 
     // when |st - pos| > wh: keep top and opacity constant
-    // when |st - pos| < wh: top = -scrollDiff^3 / wh^2, opacity = -5 * scrollDiff^2 + 1
-    return (scrollDiff < -wh) ? [wh, 0] : 
-           (scrollDiff > wh) ? [-wh, 0] :
-           [(-1 * scrollDiff * scrollDiff * scrollDiff / (wh * wh)), ((-5 * scrollDiff * scrollDiff / (wh * wh)) + 1)];
+    // when |st - pos| < wh: top = -scrollDiff^3 / wh^2, opacity = -3 * scrollDiff^2 + 1
+    return (scrollDiff < (-1 * wh)) ? [wh, 0] : 
+           (scrollDiff > wh) ? [(-1 * wh), 0] : 
+           [(-1 * scrollDiff * scrollDiff * scrollDiff / (wh * wh)), ((-3 * scrollDiff * scrollDiff / (wh * wh)) + 1)];
 }
 
 // adjusts the tops and opacities of all of the slides
@@ -24,7 +30,7 @@ function scrolling() {
     var currSlide = -1;
     var currSlideOpacity = 0;
 
-    for (let i = 0; i <= 6; i++) {
+    for (let i = 0; i < 6; i++) {
         adjustment = scrollAdjustment($(window).height() * i);
 
         // if the opacity of this slide is greater than the opacity of the current slide, change currSlide and currSlideOpacity
@@ -35,7 +41,7 @@ function scrolling() {
 
         $("#slide" + i).css("top", adjustment[0] + "px");
         $("#slide" + i).css("opacity", adjustment[1]);
-        $("#slide" + i + "rect").css("opacity", (adjustment[1] < 0.1) ? 0.1 : adjustment[1]);
+        $("#slide" + i + "rect").css("opacity", fitRange(adjustment[1], 0.1, 0.9));
     }
 
     return currSlide;
@@ -45,18 +51,19 @@ $(document).ready(function() {
     var d = new Date();
     var currSlide = 0;
 
-    // place all slides below the window except for the 0th one
-    $(".slide").css("top", $(window).height() + "px");
-    $("#slide0").css("top", "0px");
+    var periodicAdjustment = setInterval(() => {
+        // if the user hasn't manually scrolled in 100ms and the current slide's opacity is not 1, scroll to the top of the current slide in 200ms
+        if ((d.getTime() < ((new Date()).getTime() - 100)) && ($("#slide" + currSlide).css("opacity") < 1)) {
+            $("html, body").animate({
+                scrollTop: ($(window).height() * currSlide) + "px"
+            }, 200);
+        }
+    }, 250);
 
-    // triggers when the user changes the size of the window
-    $(window).on("resize", function() {
-        // height of page = window height * number of slides
-        $("html").css("height", ($(window).height() * 7));
-    });
-
+    $("#scrolltocontinue").text("Scroll down " + (($(window).width() > 700) ? "or click the buttons on the left " : "") + "to continue.");
+    
     // triggers when the page is scrolled
-    $(document).scroll(function(){
+    $(document).scroll(() => {
         d = new Date();
 
         // only change currSlide if scrolling() returns a valid number
@@ -64,14 +71,21 @@ $(document).ready(function() {
         if (temp != -1) currSlide = temp;
     });
 
-    // triggers every 200ms
-    var periodicAdjustment = setInterval(() => {
-        // if the user hasn't manually scrolled in 100ms and the current slide's opacity is not 1, scroll to the top of the current slide
-        if ((d.getTime() < ((new Date()).getTime() - 100)) && ($("#slide" + currSlide).css("opacity") < 1)) {
-            $("html, body").animate({
-                scrollTop: ($(window).height() * currSlide) + "px"
-            }, 200);
-        }
-    }, 200);
+    $(".sliderect").click(function() {
+        // triggers when the user clicks one of the buttons on the left
+        $("html, body").animate({
+            // scrolls to the slide that the user clicked in 1 second
+            scrollTop: ($(window).height() * $(this).attr("data-num")) + "px"
+        }, 1000);
+        $(this).blur();
+    }).mouseover(function() {
+        // triggers when the user's mouse hovers over the button
+        // change this button's opacity to 0.6 unless it's opacity is already greater than that
+        if ($(this).css("opacity") < 0.6) $(this).css("opacity", 0.6);
+    }).mouseout(function() {
+        // triggers when the user's mouse leaves the button
+        // resets the opacity
+        $(this).css("opacity", fitRange(scrollAdjustment($(window).height() * $(this).attr("data-num"))[1], 0.1, 0.9));
+    });
 
 });
