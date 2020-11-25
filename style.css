@@ -63,7 +63,22 @@ h2 {
     height: 10%;
 }
 
-@media only screen and (min-width: 700px) {
+#mobilenotification {
+    display: none;
+    position: fixed;
+    top: 1%;
+    left: 1%;
+    height: 98%;
+    width: 98%;
+    z-index: 999;
+    background-color: rgb(250, 250, 250);
+    text-align: center;
+    margin: auto auto auto auto;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+@media (min-width: 700px) {
 
     #slidecontainer {
         float: right;

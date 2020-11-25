@@ -50,6 +50,7 @@ function scrolling() {
 $(function() {
     var d = new Date();
     var currSlide = 0;
+    var mobileNotificationSeen = false;
 
     var periodicAdjustment = setInterval(() => {
         // if the user hasn't manually scrolled in 100ms and the current slide's opacity is not 1, scroll to the top of the current slide in 200ms
@@ -87,5 +88,26 @@ $(function() {
         // resets the opacity
         $(this).css("opacity", fitRange(scrollAdjustment($(window).height() * $(this).attr("data-num"))[1], 0.1, 0.9));
     });
+
+    // make the mobile notification disappear when it's clicked
+    $("#mobilenotification").click(() => {
+        $("#mobilenotification").css("display", "none");
+    });
+
+    // check that none of the text overlaps and alert the user if they do
+    function windowOnResize() {
+        for (let i = 1; i < 8; i++) {
+            if (document.getElementById("slide" + i + "p1").getBoundingClientRect().bottom > document.getElementById("slide" + i + "p2").getBoundingClientRect().top) {
+                $("#mobilenotification").css("display", "block");
+                mobileNotificationSeen = true;
+                return;
+            }
+        }
+    }
+
+    windowOnResize();
+
+    // when the window is resized, call windowOnResize() when the mobile notification hasn't been seen yet
+    $(window).on("resize", () => mobileNotificationSeen ? null : windowOnResize());
 
 });
