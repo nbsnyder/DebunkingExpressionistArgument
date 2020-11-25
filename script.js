@@ -30,7 +30,7 @@ function scrolling() {
     var currSlide = -1;
     var currSlideOpacity = 0;
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 10; i++) {
         adjustment = scrollAdjustment($(window).height() * i);
 
         // if the opacity of this slide is greater than the opacity of the current slide, change currSlide and currSlideOpacity
@@ -47,7 +47,7 @@ function scrolling() {
     return currSlide;
 }
 
-$(document).ready(function() {
+$(function() {
     var d = new Date();
     var currSlide = 0;
 
