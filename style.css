@@ -5,7 +5,7 @@ Debunking the Expressionist Argument
 */
 
 html {
-    height: calc(100vh * 10); /* 100vh * number of slides */
+    height: 1000vh; /* 100vh * number of slides */
 }
 
 body {
@@ -73,7 +73,6 @@ h2 {
     z-index: 999;
     background-color: rgb(250, 250, 250);
     text-align: center;
-    margin: auto auto auto auto;
     border: 1px solid black;
     border-radius: 5px;
 }
@@ -96,9 +95,9 @@ h2 {
     .sliderect {
         display: block;
         width: 70%;
-        height: calc(90vh / 10); /* 90vh / number of slides */
-        line-height: calc(90vh / 10); /* 90vh / number of slides */
-        margin: calc(10vh / 20) auto calc(10vh / 20) auto; /* top and bottom: 10vh / (2 * number of slides) */
+        height: 9vh; /* 90vh / number of slides */
+        line-height: 9vh; /* 90vh / number of slides */
+        margin: 0.5vh auto 0.5vh auto; /* top and bottom: 10vh / (2 * number of slides) */
         background-color: red;
         text-align: center;
         border: 0px;

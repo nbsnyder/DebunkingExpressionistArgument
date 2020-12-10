@@ -10,39 +10,49 @@ var fitRange = (num, min, max) =>
     (num > max) ? max : 
     num;
 
-// calculates the adjustments that should be made to the slides when the user scrolls
-// returns an array where the first element is the top of the slide and the second element is the opacity
-function scrollAdjustment(pos) {
+// calculates the adjustment to top that should be made when the user scrolls
+function adjustTop(pos) {
     var scrollDiff = $(document).scrollTop() - pos;
     var wh = $(window).height();
 
-    // when |st - pos| > wh: keep top and opacity constant
-    // when |st - pos| < wh: top = -scrollDiff^3 / wh^2, opacity = -3 * scrollDiff^2 + 1
-    return (scrollDiff < (-1 * wh)) ? [wh, 0] : 
-           (scrollDiff > wh) ? [(-1 * wh), 0] : 
-           [(-1 * scrollDiff * scrollDiff * scrollDiff / (wh * wh)), ((-3 * scrollDiff * scrollDiff / (wh * wh)) + 1)];
+    // when |st - pos| > wh: keep top constant
+    // when |st - pos| < wh: top = -scrollDiff^3 / wh^2
+    return (scrollDiff < (-1 * wh)) ? wh : 
+           (scrollDiff > wh) ? (-1 * wh) : 
+           (-1 * scrollDiff * scrollDiff * scrollDiff / (wh * wh));
+}
+
+// calculates the adjustment to opacity that should be made when the user scrolls
+function adjustOpacity(pos) {
+    var scrollDiff = $(document).scrollTop() - pos;
+    var wh = $(window).height();
+
+    // when |st - pos| > wh: keep opacity as 0
+    // when |st - pos| < wh: opacity = -3 * scrollDiff^2 + 1
+    return (Math.abs(scrollDiff) > wh) ? 0 : 
+           ((-3 * scrollDiff * scrollDiff / (wh * wh)) + 1);
 }
 
 // adjusts the tops and opacities of all of the slides
 // returns the current slide number
 function scrolling() {
-    var adjustment = [];
+    var opacity = 0;
     var currSlide = -1;
     var currSlideOpacity = 0;
 
-    for (let i = 0; i < 10; i++) {
-        adjustment = scrollAdjustment($(window).height() * i);
+    $(".slide").each((index, slide) => {
+        opacity = adjustOpacity($(window).height() * index);
 
         // if the opacity of this slide is greater than the opacity of the current slide, change currSlide and currSlideOpacity
-        if (adjustment[1] > currSlideOpacity) {
-            currSlide = i;
-            currSlideOpacity = adjustment[1];
+        if (opacity > currSlideOpacity) {
+            currSlide = index;
+            currSlideOpacity = opacity;
         }
 
-        $("#slide" + i).css("top", adjustment[0] + "px");
-        $("#slide" + i).css("opacity", adjustment[1]);
-        $("#slide" + i + "rect").css("opacity", fitRange(adjustment[1], 0.1, 0.9));
-    }
+        $(slide).css("top", adjustTop($(window).height() * index) + "px");
+        $(slide).css("opacity", opacity);
+        $(".sliderect[data-num=" + index + "]").css("opacity", fitRange(opacity, 0.1, 0.9));
+    });
 
     return currSlide;
 }
@@ -86,12 +96,12 @@ $(function() {
     }).mouseout(function() {
         // triggers when the user's mouse leaves the button
         // resets the opacity
-        $(this).css("opacity", fitRange(scrollAdjustment($(window).height() * $(this).attr("data-num"))[1], 0.1, 0.9));
+        $(this).css("opacity", fitRange(adjustOpacity($(window).height() * $(this).attr("data-num")), 0.1, 0.9));
     });
 
     // make the mobile notification disappear when it's clicked
-    $("#mobilenotification").click(() => {
-        $("#mobilenotification").css("display", "none");
+    $("#mobilenotification").click(function() {
+        $(this).css("display", "none");
     });
 
     // check that none of the text overlaps and alert the user if they do
