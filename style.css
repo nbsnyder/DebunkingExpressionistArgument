@@ -135,23 +135,16 @@ h2 {
 /* Properties of the content */
 
 p {
-    width: 95%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
 
-img {
+img, iframe {
+    display: block;
     width: 90%;
     max-height: 100%;
-    display: block;
     margin: auto;
-}
-
-.video {
-    display: block;
-    width: 90%;
-    max-height: 100%;
-    margin: auto auto auto auto;
 }
 
 
@@ -180,12 +173,6 @@ img {
     display: flex;
     align-items: center;
 }
-/*
-.twocol-left > *, .twocol-right > * {
-    position: relative;
-    display: block;
-    top: 20%;
-}*/
 
 
 
@@ -196,26 +183,17 @@ img {
     height: 50%;
     width: 100%;
 }
-.bottomtext {
-    height: 40%;
-    width: 100%;
-}
 
-.toptextleftcolumn {
+.toptextleftcolumn, .toptextrightcolumn {
+    display: flex;
+    align-items: center;
     flex: 50%;
     height: 100%;
 }
 
-.toptextrightcolumn {
-    flex: 50%;
-}
-
-.bottomtext, .toptextrightcolumn {
+.bottomtext {
     display: flex;
-    align-items: center; /* align vertical */
-}
-
-.toptextleftcolumn {
-    display: flex;
-    align-items: center; /* align vertical */
+    align-items: center;
+    height: 40%;
+    width: 100%;
 }

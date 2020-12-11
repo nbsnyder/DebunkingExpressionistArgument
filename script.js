@@ -61,8 +61,6 @@ $(function() {
     var d = new Date();
     var currSlide = scrolling();
     var mobileNotificationSeen = false;
-    var oneColumnLayout = [0, 4, 7, 8];
-    var twoColumnLayout = [1, 3];
     var threeColumnLayout = [2, 5, 6];
 
     var periodicAdjustment = setInterval(() => {
@@ -110,7 +108,7 @@ $(function() {
         $("#scrolltocontinue").text("Scroll down " + (($(window).width() > 700) ? "or click the buttons on the left " : "") + "to continue.");
 
         // resize the videos
-        $(".video").each((index, video) => {
+        $("iframe").each((index, video) => {
             let parentHeight = $(video).parent().parent().parent().height() * 0.4;
             let projHeight = $(video).width() * 315 / 560; // height/width ratio = 315/560
             $(video).css("height", Math.min(projHeight, parentHeight) + "px");
