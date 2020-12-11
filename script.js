@@ -28,7 +28,7 @@ function adjustOpacity(pos) {
     var wh = $(window).height();
 
     // when |st - pos| > wh: keep opacity as 0
-    // when |st - pos| < wh: opacity = -3 * scrollDiff^2 + 1
+    // when |st - pos| < wh: opacity = (-3 * scrollDiff^2 / wh^2) + 1
     return (Math.abs(scrollDiff) > wh) ? 0 : 
            ((-3 * scrollDiff * scrollDiff / (wh * wh)) + 1);
 }
@@ -59,8 +59,11 @@ function scrolling() {
 
 $(function() {
     var d = new Date();
-    var currSlide = 0;
+    var currSlide = scrolling();
     var mobileNotificationSeen = false;
+    var oneColumnLayout = [0, 4, 7, 8];
+    var twoColumnLayout = [1, 3];
+    var threeColumnLayout = [2, 5, 6];
 
     var periodicAdjustment = setInterval(() => {
         // if the user hasn't manually scrolled in 100ms and the current slide's opacity is not 1, scroll to the top of the current slide in 200ms
@@ -71,8 +74,6 @@ $(function() {
         }
     }, 250);
 
-    $("#scrolltocontinue").text("Scroll down " + (($(window).width() > 700) ? "or click the buttons on the left " : "") + "to continue.");
-    
     // triggers when the page is scrolled
     $(document).scroll(() => {
         d = new Date();
@@ -104,9 +105,22 @@ $(function() {
         $(this).css("display", "none");
     });
 
-    // check that none of the text overlaps and alert the user if they do
+    // changes the appearance of the page when the user resizes the window
     function windowOnResize() {
-        for (let i = 1; i < 8; i++) {
+        $("#scrolltocontinue").text("Scroll down " + (($(window).width() > 700) ? "or click the buttons on the left " : "") + "to continue.");
+
+        // resize the videos
+        $(".video").each((index, video) => {
+            let parentHeight = $(video).parent().parent().parent().height() * 0.4;
+            let projHeight = $(video).width() * 315 / 560; // height/width ratio = 315/560
+            $(video).css("height", Math.min(projHeight, parentHeight) + "px");
+        });
+
+        // If the user has already received the warning, don't bother with the rest of the function
+        if (mobileNotificationSeen) return;
+
+        // warn the user if the text overlaps
+        for(let i of threeColumnLayout) {
             if (document.getElementById("slide" + i + "p1").getBoundingClientRect().bottom > document.getElementById("slide" + i + "p2").getBoundingClientRect().top) {
                 $("#mobilenotification").css("display", "block");
                 mobileNotificationSeen = true;
@@ -117,7 +131,7 @@ $(function() {
 
     windowOnResize();
 
-    // when the window is resized, call windowOnResize() when the mobile notification hasn't been seen yet
-    $(window).on("resize", () => mobileNotificationSeen ? null : windowOnResize());
+    // when the window is resized, call windowOnResize()
+    $(window).on("resize", windowOnResize);
 
 });

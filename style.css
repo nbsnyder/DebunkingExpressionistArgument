@@ -4,64 +4,20 @@ ANTH 3541: Language and Music final project
 Debunking the Expressionist Argument
 */
 
+
+
 html {
-    height: 1000vh; /* 100vh * number of slides */
+    height: 900vh; /* 100vh * number of slides */
 }
 
 body {
-    background-image: linear-gradient(120deg, 
+    background-image: linear-gradient(150deg, 
         rgba(0, 255, 0, 0.2), 
         rgba(0, 255, 255, 0.2), 
         rgba(0, 0, 255, 0.2));
 }
 
-#slidecontainer {
-    width: 100%;
-}
 
-#progressbar {
-    width: 0%;
-    display: none;
-}
-
-h2 {
-    text-align: center;
-    height: 10%;
-}
-
-#signature {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    padding: 5px;
-    border: 1px solid black;
-    text-align: center;
-    background-color: rgba(255, 0, 0, 0.6);
-    border-radius: 5px;
-}
-
-.toptext {
-    display: flex;
-    height: 40%;
-    width: 100%;
-}
-
-.toptextleftcolumn {
-    flex: 50%;
-}
-
-.toptextrightcolumn {
-    flex: 50%;
-}
-
-.bottomtext {
-    height: 40%;
-    width: 100%;
-}
-
-.topdiv {
-    height: 10%;
-}
 
 #mobilenotification {
     display: none;
@@ -77,8 +33,20 @@ h2 {
     border-radius: 5px;
 }
 
-@media (min-width: 700px) {
 
+
+/* Left side of the screen */
+
+#slidecontainer {
+    width: 100%;
+}
+
+#progressbar {
+    width: 0%;
+    display: none;
+}
+
+@media (min-width: 700px) {
     #slidecontainer {
         float: right;
         width: 97%;
@@ -95,9 +63,9 @@ h2 {
     .sliderect {
         display: block;
         width: 70%;
-        height: 9vh; /* 90vh / number of slides */
-        line-height: 9vh; /* 90vh / number of slides */
-        margin: 0.5vh auto 0.5vh auto; /* top and bottom: 10vh / (2 * number of slides) */
+        height: 10vh; /* 90vh / number of slides */
+        line-height: 10vh; /* 90vh / number of slides */
+        margin: calc(10vh / 18) auto calc(10vh / 18) auto; /* top and bottom: 10vh / (2 * number of slides) */
         background-color: red;
         text-align: center;
         border: 0px;
@@ -116,19 +84,16 @@ h2 {
     #slide0rect {
         opacity: 1;
     }
-
 }
+
+
+
+/* Properties of the slides */
 
 .slide {
     position: fixed;
     height: 95%;
     width: 95%;
-}
-
-.slide p {
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .slide:not(#slide0) {
@@ -139,4 +104,118 @@ h2 {
 #slide0 {
     top: 0px;
     opacity: 1;
+}
+
+
+
+/* Top of each slide */
+
+.topdiv {
+    height: 5%;
+}
+
+#signature {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 5px;
+    border: 1px solid black;
+    text-align: center;
+    background-color: rgba(255, 0, 0, 0.6);
+    border-radius: 5px;
+}
+
+h2 {
+    text-align: center;
+    height: 5%;
+}
+
+
+
+/* Properties of the content */
+
+p {
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img {
+    width: 90%;
+    max-height: 100%;
+    display: block;
+    margin: auto;
+}
+
+.video {
+    display: block;
+    width: 90%;
+    max-height: 100%;
+    margin: auto auto auto auto;
+}
+
+
+
+/* For the 1 column layout*/
+
+.onecolumn {
+    height: 60%;
+    display: flex;
+    align-items: center;
+}
+
+
+
+/* For the 2 column layout */
+
+.twocolumns {
+    display: flex;
+    width: 100%;
+    height: 80%;
+}
+
+.twocol-left, .twocol-right {
+    flex: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+/*
+.twocol-left > *, .twocol-right > * {
+    position: relative;
+    display: block;
+    top: 20%;
+}*/
+
+
+
+/* For the 3 column layout */
+
+.toptext {
+    display: flex;
+    height: 50%;
+    width: 100%;
+}
+.bottomtext {
+    height: 40%;
+    width: 100%;
+}
+
+.toptextleftcolumn {
+    flex: 50%;
+    height: 100%;
+}
+
+.toptextrightcolumn {
+    flex: 50%;
+}
+
+.bottomtext, .toptextrightcolumn {
+    display: flex;
+    align-items: center; /* align vertical */
+}
+
+.toptextleftcolumn {
+    display: flex;
+    align-items: center; /* align vertical */
 }
